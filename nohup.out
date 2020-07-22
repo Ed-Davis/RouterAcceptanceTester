@@ -1,0 +1,175 @@
+ifup: interface eth0 already configured
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 5
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 14
+DHCPREQUEST on wlan0 to 255.255.255.255 port 67
+DHCPOFFER from 192.168.0.1
+DHCPACK from 192.168.0.1
+bound to 192.168.0.3 -- renewal in 42910 seconds.
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPRELEASE on wlan0 to 192.168.0.1 port 67
+rm: cannot remove `/run/wpa_supplicant/*': No such file or directory
+Device Under Test: Sky SR102
+Date: Wed Jul  9 00:08:32 UTC 2014
+Router Name (SSID): Upstairs_n_AP
+Firmware Version: 2.1r.3727.R
+Wireless credentials: Gathered successfully
+Wifi Connection Check (using DHCP): Successful
+RAT's Name: RAT 1
+RAT's Age: 78 hrs 29 min
+ifup: interface eth0 already configured
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 3
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 8
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 7
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 7
+DHCPREQUEST on wlan0 to 255.255.255.255 port 67
+DHCPOFFER from 192.168.0.1
+DHCPACK from 192.168.0.1
+bound to 192.168.0.3 -- renewal in 36214 seconds.
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPRELEASE on wlan0 to 192.168.0.1 port 67
+SR102_Upstairs_n_AP.txt
+Date: Thu Jul 10 00:50:58 UTC 2014
+Manufacturer: Sky
+Model: SR102
+Router Name (SSID): Upstairs_n_AP
+Firmware Version: 2.1r.3727.R
+Wireless credentials: Gathered successfully
+Wifi Connection Check (using DHCP): 3 of 3 DNS Resolves Passed
+DNS Proxy Test: 3 of 3 DNS Resolves Passed
+RAT's Name: RAT 1
+RAT's Age: 103 hrs 06 min
+ifup: interface eth0 already configured
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 7
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 9
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 13
+DHCPREQUEST on wlan0 to 255.255.255.255 port 67
+DHCPOFFER from 192.168.0.1
+DHCPACK from 192.168.0.1
+bound to 192.168.0.3 -- renewal in 35495 seconds.
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPRELEASE on wlan0 to 192.168.0.1 port 67
+SR102_Upstairs_n_AP.txt
+Date: Thu Jul 10 00:57:37 UTC 2014
+Manufacturer: Sky
+Model: SR102
+Router Name (SSID): Upstairs_n_AP
+Firmware Version: 2.1r.3727.R
+Wireless credentials: Gathered successfully
+Wifi Connection Check (using DHCP): 3 of 3 DNS Resolves Passed
+DNS Proxy Test: 3 of 3 DNS Resolves Passed
+RAT's Name: RAT 1
+RAT's Age: 103 hrs 13 min
+ifup: interface eth0 already configured
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 7
+DHCPREQUEST on wlan0 to 255.255.255.255 port 67
+DHCPOFFER from 192.168.0.1
+DHCPACK from 192.168.0.1
+bound to 192.168.0.3 -- renewal in 33220 seconds.
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPRELEASE on wlan0 to 192.168.0.1 port 67
+SR102_Upstairs_n_AP.txt
+Date: Tue Jul 29 18:15:07 UTC 2014
+Manufacturer: Sky
+Model: SR102
+Router Name (SSID): Upstairs_n_AP
+Firmware Version: 2.1r.3727.R
+Wireless credentials: Gathered successfully
+Wifi Connection Check (using DHCP): 3 of 3 DNS Resolves Passed
+DNS Proxy Test: 3 of 3 DNS Resolves Passed
+RAT's Name: RAT 1
+RAT's Age: 117 hrs 20 min
+ifup: interface eth0 already configured
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 4
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 5
+DHCPREQUEST on wlan0 to 255.255.255.255 port 67
+DHCPOFFER from 192.168.0.1
+DHCPACK from 192.168.0.1
+bound to 192.168.0.3 -- renewal in 34205 seconds.
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPRELEASE on wlan0 to 192.168.0.1 port 67
+SR102_Upstairs_n_AP.txt
+Date: Tue Jul 29 18:31:02 UTC 2014
+Manufacturer: Sky
+Model: SR102
+Router Name (SSID): Upstairs_n_AP
+Firmware Version: 2.1r.3727.R
+Wireless credentials: Gathered successfully
+Wifi Connection Check (using DHCP): 3 of 3 DNS Resolves Passed
+DNS Proxy Test: 3 of 3 DNS Resolves Passed
+RAT's Name: RAT 1
+RAT's Age: 117 hrs 36 min

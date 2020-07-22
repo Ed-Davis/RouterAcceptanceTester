@@ -1,0 +1,13 @@
+Internet Systems Consortium DHCP Client 4.2.2
+Copyright 2004-2011 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   LPF/wlan0/80:1f:02:e4:9a:9c
+Sending on   Socket/fallback
+DHCPDISCOVER on wlan0 to 255.255.255.255 port 67 interval 6
+DHCPREQUEST on wlan0 to 255.255.255.255 port 67
+DHCPOFFER from 192.168.0.1
+DHCPACK from 192.168.0.1
+bound to 192.168.0.3 -- renewal in 41755 seconds.

@@ -1,0 +1,402 @@
+#!/usr/bin/perl -w -I /PiRAT/Tools/
+
+BEGIN {
+use lib "/PiRAT/Tools";
+use lib "/PiRAT";
+}
+use strict;
+
+use Net::Ping;
+use Time::HiRes qw(usleep);
+use WWW::Mechanize;
+use WWW::Mechanize::FormFiller;
+use URI::URL;
+use Net::FTP;
+use Tools::RatLed; 
+use Time::Out qw(timeout);
+
+require LWP::UserAgent;
+
+my $router='192.168.0.1'; 
+my $bbc='212.58.241.131'; 
+my $cnt='0';
+my $var_sky_ssid = ('var sky_ssid = ');
+my $varwpaPskKey = ('var wpaPskKey = ');
+my $model=("_");  
+my $pass_or_fail=('Pass');
+my $router_gui=("not done");
+my $wantest=("not done");
+my $dnstest=("Skipped");
+my $wifitest=("not done");
+my $ssid=("_");
+my $datechecked=(0);
+my ($user,$password)=('admin','sky');
+my $tablestart=('<td>');
+my $tableend=('</td>');
+my $manstart=('<th width="35%">Manufacturer</th>');
+my $marker=(0);
+my $ethernetInfo=('cat /sys/class/net/eth0/operstate');
+my $wlanInfo=('cat /sys/class/net/wlan0/operstate');
+my $deviceID=('RAT 1');
+
+my ($uptime, $pid, $lastpid, $passkey, $rspage, $response, $nextstuff, 
+	$manufacturer, $router_fw, $adsl_fw, $mac_lan, $filename, $eth0state, 
+	$wlan0state, $heading, $timeout, @pids, @content);
+
+my $agent = WWW::Mechanize->new( autocheck => 1 );
+my $formfiller = WWW::Mechanize::FormFiller->new();
+
+my $p = Net::Ping->new();
+
+RatLed->StartupSeq(); 
+
+waitforrouter();
+
+sub waitforrouter	{ 
+
+	if ($marker==0)	{  			
+			killer();
+			interface_return();
+			RatLed->Clear();
+			$pid=(RatLed->Breathe());
+			push(@pids, "$pid ");	
+			$marker++;			
+		}		
+	if ($p->ping($router, 2))  {   
+			$p->close();
+			$marker=("0");
+			killer();
+			$pid=(RatLed->RouterDetected());
+			push(@pids, "$pid ");	 
+			wancheck();
+
+  		}		else		{
+    	
+    		$p->close();
+			sleep (1);
+			waitforrouter();
+		}
+}
+
+sub wancheck { 
+			killer();
+			$pid=(RatLed->TestInProg());
+			push (@pids, "$pid ");
+			$pid=(RatLed->LocalPass());
+			push (@pids, "$pid ");
+
+    if ($p->ping($bbc, 3))  { 
+    	sleep (1);
+    		if ($datechecked==0)	{
+    				system('ntpdate -s ntp1.isp.sky.com');
+    				$datechecked++;
+    		}	  
+
+    $p->close(); 
+    $wantest=("WAN: Connected");
+	killer();		
+	$pid=(RatLed->RemotePass());		
+	push (@pids, "$pid ");
+	$pid=(RatLed->TestInProg());
+	push (@pids, "$pid ");
+	checkrouter ();
+			}	else	{    
+    	$p->close();
+		$marker=(0);
+	waitforrouter();
+	}
+}
+
+sub checkrouter	{
+		$timeout=120;
+		timeout $timeout => sub {
+			$agent->env_proxy();	
+			$agent->credentials($user, $password);
+			$agent->get('http://192.168.0.1/sky_index.html');
+			$agent->form_number(1) if $agent->forms and scalar @{$agent->forms};
+			$agent->get('http://192.168.0.1/sky_router_status.html');
+			$agent->form_number(1) if $agent->forms and scalar @{$agent->forms};
+			$rspage=($agent->content);
+			@content=($rspage);
+			$router_gui=("Router GUI: Responding and credentials correct");		
+ 
+			if ($rspage=~(m/$manstart\s|\S/g))	{
+					my $nextstuff=$';
+			if ($nextstuff=~m/\>(\w{1,5})/) {
+					($manufacturer)=$1;
+		}
+}
+
+			if ($rspage=~(m/$manstart\s|\S/g))	{
+					my $nextstuff=$';
+			if ($nextstuff=~m/\>(\w{1,5})/) {
+					($manufacturer)=$1;
+		}
+}
+		
+			my $modstart=('>Model</'); 
+			if ($rspage=~(m/$modstart\s|\S/g))	{
+					my $nextstuff=$';
+			if ($nextstuff=~m/(SR[0-9]{3})/) {
+					($model)=$1;
+		}
+}
+
+			my $rfw='Firmware Version'; 
+			if ($rspage=~(m/$rfw<\/\w{1,}>\s{0,}<\w{1,}>/))	{
+					my $nextstuff=$';
+			if ($nextstuff=~m/^\s{0,}(.{1,})\s|\n$/g) {	
+				($router_fw)=$1;
+				}
+				$router_fw=~(s/<\/td>//sg);
+				}
+				my $fwstart='DSL Firmware Version'; 
+				if ($rspage=~(m/([A]{0,1}$fwstart)/))	{
+					my $nextstuff=$';
+				if ($nextstuff=~m/\(\'(.)\'\)/g) {
+					($adsl_fw)=$1;
+		}
+}
+
+				my $lanport=('LAN Port');
+				my $macstart=('MAC Address');
+				my $doc_w=('document.write');
+				if ($rspage=~(m/($lanport[.]{1,}$macstart)[.]{1,}$doc_w[.]{1,}/sg))	{
+					my $nextstuff=$';
+					if ($nextstuff=~m/(\S{2}:\S{2}:\S{2}:\S{2}:\S{2}:\S{2})/si) {
+					($mac_lan)=$1;
+		}
+}
+				
+				$agent->get('http://192.168.0.1/sky_wireless_settings.html');
+				$agent->form_number(1) if $agent->forms and scalar @{$agent->forms};	
+				my @lines=($agent->content);
+					foreach my $line(@lines)	{
+					if ($line=~(/$var_sky_ssid['](\S{1,})[']/))  {
+								($ssid)=$1;
+			}
+					if ($line=~(/$varwpaPskKey['](\S{1,})[']/))  {
+								($passkey)=$1;
+		}
+}
+
+open WPA, "+>/etc/wpa_supplicant.conf";
+
+my $supplicant_file=<<WPASUPPLICANT;
+
+ctrl_interface=/run/wpa_supplicant/
+network={
+	ssid="$ssid"
+	psk="$passkey"
+}
+WPASUPPLICANT
+
+$filename=("/PiRAT/Reports/$model-$ssid.txt");
+
+print WPA $supplicant_file;
+close WPA;
+my $date=`date`;
+chomp $date;
+open ROUTERINFO, "+>$filename";
+
+my $reportstuff= <<REPORTSTUFF;
+Date: $date
+Manufacturer: $manufacturer
+Model: $model
+Firmware Version: $router_fw
+Router Name (SSID): $ssid
+REPORTSTUFF
+
+print ROUTERINFO $reportstuff;
+close ROUTERINFO;
+checkdns();
+	};
+waitforrouter();	
+}
+
+sub checkdns	{
+	$timeout=120;
+	timeout $timeout => sub {
+	$cnt='0';
+	my @hosts=(	'bbc.co.uk', 
+				'cpan.com',
+				'google.com');	
+	foreach my $host(@hosts)	{
+	my $p = Net::Ping->new("icmp", 2);
+	if ($p->ping($host)) {
+	$cnt++;
+		}
+	$p->close();
+		}
+	if ($cnt!="0")	{
+			$dnstest= ("DNS Proxy Test: $cnt of 3 DNS Resolves Passed");
+			checkwlan();	
+		}	else	{ 			
+	$dnstest= ("DNS Proxy Test: Failed");
+	$pass_or_fail=('Fail');
+	report();
+		}
+	};
+waitforrouter();
+}
+
+sub checkwlan	{
+$timeout=120;
+timeout $timeout => sub {
+			system ("ifdown eth0");
+			system ("ifup wlan0");
+			killer();	
+			RatLed->Clear();
+			$pid=(RatLed->WirelessTestInProg());
+			push (@pids, "$pid ");
+			$pid=(RatLed->RemotePass());		
+			push (@pids, "$pid ");
+			sleep (1);
+	if ($p->ping($router, 5))  {   
+					killer();	
+    				$pid=(RatLed->WirelessPass());
+    				push (@pids, "$pid ");
+    				$pid=(RatLed->TestInProg());
+					push (@pids, "$pid ");    				
+					$p->close();
+					$wifitest=("Wifi Connection Check (using DHCP): Passed");	
+					$pass_or_fail=('Pass');
+					interface_return();
+					report();
+				
+		}			else			{						
+		$wifitest=("Wifi Connection Check (using DHCP):	Failed");
+    	$pass_or_fail=('Fail');	
+    	interface_return();
+		report();
+    	}
+	};
+waitforrouter();
+}								
+sub report	{
+
+my $uptime_hrs=Uptime();
+
+my $test_results=<<RESULTS;
+$router_gui
+$dnstest
+$wifitest
+Test Summary: $pass_or_fail
+RAT Unit ID: $deviceID
+RAT Unit Total Uptime: $uptime_hrs
+RESULTS
+
+		open REPORT, "+>>$filename";
+		print REPORT $test_results;
+		close REPORT;
+		FTP_Results();
+}
+
+sub Pass	{
+		killer();
+		RatLed->Clear();
+		$pid=(RatLed->Pass());
+		push (@pids, "$pid ");
+		$marker=(0);
+		ckisalive();
+				
+}
+
+sub Fail	{
+		killer();
+		RatLed->Clear();
+    	$pid=(RatLed->Fail());
+		push (@pids, "$pid ");
+		interface_return();
+		$marker=(0);
+		ckisalive();
+}		
+
+sub Uptime	{  
+				open UPTIME, "</PiRAT/Tools/Uptime/Uptime_in_min.txt";
+				$uptime=<UPTIME>;
+				close UPTIME;
+				chomp $uptime;
+				my $hours;
+				my $minutes;
+				$hours = $uptime / 60 ;
+				$minutes =  $uptime % 60 ;
+					if ($minutes<10)	{
+							$minutes="0$minutes";
+				}
+					if ($hours =~/([0-9]{0,})\../)	{
+							$hours = $1;
+				}
+						$uptime = "$hours hrs $minutes min";
+						return $uptime;
+}
+
+sub FTP_Results	{
+$timeout=30;
+timeout $timeout => sub {
+			my $ftp = Net::FTP->new('cheesywotsit.dyndns.org:41102', Passive => 1);
+			$ftp->login('beaglerat','RT41102Beagle');
+			$ftp->cwd("RAT_Results");
+			my @files=</PiRAT/Reports/*>;
+				foreach my $file(@files)	{
+				$ftp->put($file);
+				system("rm $file");	
+				}
+			$ftp->quit;
+		result();
+	};
+result();
+}
+
+sub interface_return	{
+		$eth0state = `$ethernetInfo`;
+		$wlan0state = `$wlanInfo`; 
+		chomp $eth0state;
+		chomp $wlan0state;
+		system('ifdown wlan0');
+		system('pkill wpa_supplicant');
+		system("rm /run/wpa_supplicant/*");
+		if ($eth0state eq 'down')	{
+		system('ifup eth0 -o OPTION=allow-hotplug');
+		}
+}
+
+sub result {
+		if ($pass_or_fail ne 'Fail')	{
+		Pass();
+		} elsif	($pass_or_fail eq 'Fail')	{
+		Fail();
+		}
+ckisalive();
+}
+
+sub ckisalive	{
+sleep (1);
+if (!$p->ping($router))	{
+waitforrouter();
+$marker=(0)
+
+}	else	{
+sleeper();
+	}
+};
+
+sub sleeper	{
+sleep(1);
+ckisalive ();
+
+};
+
+sub killer	{
+			if (@pids)	{
+			foreach my $process(@pids)	{
+			system("kill $process");
+			}
+			@pids=();
+			$pid=();
+			} elsif	($pid)	{
+			system("kill $pid");
+			sleep(1);
+		}
+}
+

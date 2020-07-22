@@ -1,0 +1,48 @@
+#!/usr/bin/perl -w 
+
+use v5.10;
+
+BEGIN {
+use lib "/RAT/Tools";
+use lib "/RAT";
+}
+use strict;
+use RAT;
+RAT->Start();
+
+## Is the router present?
+my $connectionTest;
+my $datechecked=(0);
+
+$connectionTest=RAT->waitForRouter();
+## When it responds...
+if ($connectionTest=~m/connected/i)	{    ## Detected
+				$connectionTest=RAT->wanCheck();
+}
+## If its the first time - update the date details
+if ($datechecked==0)	{
+    				system('ntpdate -s ntp1.isp.sky.com');
+    				$datechecked++;
+}	
+
+my $router_details=RAT->deviceReport();  ## Report first section
+my %router_output=%$router_details;  ## Dereferenced
+
+say "GOING TO WIFI";
+
+my $wlan_test=RAT->checkWLAN();  ## This has 60 seconds before it times out
+my %wifi_output=%$wlan_test;  ## Dereferenced
+my %output=(%router_output, %wifi_output); #Combined
+
+print $output{'Model: '} . "_" . $output{'Router Name (SSID): '} . '.txt' . "\n\n"; 
+
+for ('Date: ',
+'Manufacturer: ',
+'Model: ',
+'Router Name (SSID): ',
+'Firmware Version: ',
+'Wireless credentials: ',
+'Wifi Connection Check (using DHCP): ',
+'DNS Proxy Test: ',
+"RAT\'s Name: ",
+"RAT\'s Age: ")		{	print $_ . $output{$_} . "\n";	}
