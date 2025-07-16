@@ -52,4 +52,6 @@ The code was run on Arch Linux with a very stripped down kernel in order to make
 
 At the time the Pi had a full size SD card which protruded whereas the Beaglebone Black had a micro SD card which was more difficult to tamper with or damage. I explored this when the original Pi + protoboard was in transport and slight pressure on the protruding SD card caused the Pi to fail to boot until the slot was resoldered. The Beaglebone had a smaller footprint and much nicer case options (pre-affordable 3D printing)
 
-## Further work for this project repo: Ill share a video of the RAT doing a test and anything else which might help anyone wanting to create a clone to start working with. 
+### Further work for this project repo: 
+
+Ill share a video of the RAT doing a test and anything else which might help anyone wanting to create a clone to start working with. 
