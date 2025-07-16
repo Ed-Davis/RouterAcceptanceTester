@@ -1,5 +1,5 @@
 # RAT 
-*Please note: I am publicising this more than a decade after I made it so details may be fuzzy and I know there are a lot of things I would do differently, for example the code is naieve and messy, different versions are in the same repo. "So why are you sharing it then Ed?" I hear you cry. well, I think the concept is intersting and may inspire modernised solutions to similar challenges*
+*Please note: I am publicising this more than a decade after I made it so details may be fuzzy and I know there are a lot of things I would do differently, for example the code is naieve and messy, different versions are in the same repo. "So why are you sharing it then Ed?" I hear you cry. well, I think the concept is interesting and may inspire modernised solutions to similar challenges.*
 
 ## Intro
 I built this device to solve a problem. Wharehouse staff working in inbound quality control who were largely not tech savvy had heen manually testing the routers by following a standard operating proceedure but the issue was brought to my attention because each device was taking 50min to test and so sampling targets were being routinely missed.
